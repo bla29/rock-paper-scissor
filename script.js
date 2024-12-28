@@ -54,41 +54,51 @@
         //if humanChoice = rock and computerChoice = paper then Computer wins. ComputerScore is incremented
         //Repeat for other two choices for humanChoice(Paper and scissor)
 
-        function playRound() {
-            let humanChoice = getHumanChoice();
+        function playRound(humanChoice) {
+            //let humanChoice = getHumanChoice();
             let computerChoice = getComputerChoice();
             if (humanChoice === "Rock" && computerChoice === "Rock") {
-                console.log("It's a tie!");
+                update.textContent = "It's a tie!";
+                div.appendChild(update);
             }
             if(humanChoice === "Rock" && computerChoice === "Scissor") {
-                console.log("You won! Rock beats Scissor.");
+                update.textContent = "You won! Rock beats Scissor.";
+                div.appendChild(update);
                 return true;
             }
             if(humanChoice === "Rock" && computerChoice === "Paper") {
-                console.log("You lost! Paper beats rock.");
+                update.textContent = "You lost! Paper beats rock.";
+                div.appendChild(update);
                 return false;
             }
             if (humanChoice === "Scissor" && computerChoice === "Rock") {
                 console.log("You lost! Rock beats Scissor.");
+                update.textContent = "You lost! Rock beats Scissor.";
+                div.appendChild(update);
                 return false;
             }
             if(humanChoice === "Scissor" && computerChoice === "Scissor") {
-                console.log("It's a tie!");
+                update.textContent = "It's a tie!";
+                div.appendChild(update);
             }
             if(humanChoice === "Scissor" && computerChoice === "Paper") {
-                console.log("You won! Scissor beats Paper.");
+                update.textContent = "You won! Scissor beats Paper.";
+                div.appendChild(update);
                 return true;
             }
             if (humanChoice === "Paper" && computerChoice === "Rock") {
-                console.log("You won! Paper beats Rock.");
+                update.textContent = "You won! Paper beats Rock.";
+                div.appendChild(update);
                 return true;
             }
             if(humanChoice === "Paper" && computerChoice === "Scissor") {
-                console.log("You lost! Scissor beats Paper.");
+                update.textContent = "You lost! Scissor beats Paper.";
+                div.appendChild(update);
                 return false;
             }
             if(humanChoice === "Paper" && computerChoice === "Paper") {
-                console.log("It's a tie!");
+                update.textContent = "It's a tie!";
+                div.appendChild(update);
             }
         }
 
@@ -102,17 +112,17 @@
             //Computer score variable
             let computerScore = 0;
 
-            let counter = 0;
-            while(counter < 5) {
-                let result = playRound();
-                if(result) {
-                    humanScore = humanScore + 1;
-                }
-                else if (result === false)  {
-                    computerScore = computerScore + 1;
-                }
-                counter = counter + 1;
+            
+            
+            let result = playRound();
+            if(result) {
+                humanScore = humanScore + 1;
             }
+            else if (result === false)  {
+                computerScore = computerScore + 1;
+            }
+                
+            
             if(humanScore > computerScore) {
                 console.log("Results:");
                 console.log("You have won!");
@@ -132,3 +142,80 @@
                 console.log("Computer score: " + computerScore);
             }
         }
+
+        /* Dom UI for Rock paper scissor
+        Create 3 buttons for rock,paper, and scissor that is for
+        choosing the human choice.
+        Add an event listener to each button to call the playRound function
+        with the selected choice
+        create a div to display the results and score
+        announce the winner after human or computer reaches 5 points
+        */
+       const rockButton = document.getElementById("rock");
+       const paperButton = document.getElementById("paper");
+       const scissorButton = document.getElementById("scissor");
+       const div = document.querySelector("div");
+       const update = document.createElement("p");
+
+       let humanScore = 0;
+       let computerScore = 0;
+
+       rockButton.addEventListener("click", function() {
+        let result = playRound("Rock"); 
+        if(result) {
+            humanScore++;
+            console.log("Human Score: " + humanScore);
+            
+         }
+         else if (result === false) {
+            computerScore++;
+            console.log("Computer Score: " + computerScore);
+         }
+         if(humanScore === 5 || computerScore === 5) {
+            printWinner();
+         }
+        });
+       paperButton.addEventListener("click",function() { 
+        let result = playRound("Paper"); 
+        if(result) {
+            humanScore++;
+            console.log("Human Score: " + humanScore);
+         }
+         else if(result === false) {
+            computerScore++;
+            console.log("Computer Score: " + computerScore);
+         }
+         if(humanScore === 5 || computerScore === 5) {
+            printWinner();
+         }
+        });
+       scissorButton.addEventListener("click", function() { 
+        let result = playRound("Scissor");
+        if(result) {
+            humanScore++;
+            console.log("Human Score: " + humanScore);
+         }
+         else if(result === false) {
+            computerScore++;
+            console.log("Computer Score: " + computerScore);
+         }
+         if(humanScore === 5 || computerScore === 5) {
+            printWinner();
+         }
+        });
+
+        function printWinner() {
+            if (humanScore > computerScore) {
+                update.textContent = "You won! Your score: " + humanScore + ". Computer Score: " + computerScore;
+            }
+            else if(humanScore < computerScore) {
+                update.textContent = "You lost! Computer score: " + computerScore + ". Human Score: " + humanScore;
+            }
+            div.appendChild(update);
+
+            humanScore = 0;
+            computerScore = 0;
+
+            
+        }
+       
